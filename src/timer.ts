@@ -1,36 +1,61 @@
 import { formatTime } from './utils';
+import * as vscode from 'vscode';
 
-let startTime: number;
+let startTime: Date | null = null;
 let elapsedTime = 0;
+let isActive = false;
 
 export function startTimer() {
-  startTime = Date.now();
+  startTime = new Date();
   elapsedTime = 0;
+  isActive = true;
 
   return {
     hasHourPassed() {
-      const currentTime = Date.now();
+      if (!startTime) {
+        return false;
+      }
+
+      const currentTime = new Date();
       const hourInMilliseconds = 3600000;
 
-      return currentTime - startTime >= hourInMilliseconds;
+      return currentTime.getTime() - startTime.getTime() >= hourInMilliseconds;
     },
     getElapsedTime() {
-      const currentTime = Date.now();
-      elapsedTime = Math.floor((currentTime - startTime) / 1000);
+      const currentTime = new Date();
+      elapsedTime = Math.floor((currentTime.getTime() - startTime!.getTime()) / 1000);
       return formatTime(elapsedTime);
     },
   };
 }
 
 export function stopTimer() {
-  startTime = Date.now();
+  startTime = null;
+  isActive = false;
 }
 
-export function resetTimer() {
-  startTime = Date.now();
+export async function resetTimer() {
+  startTime = new Date();
   elapsedTime = 0;
+  isActive = true;
 }
 
 export function getElapsedTime() {
   return formatTime(elapsedTime);
 }
+
+// Event listener for opening a text document in the VSCode editor
+vscode.workspace.onDidOpenTextDocument((event) => {
+  // Initialize the start time when a document is opened
+  if (!isActive) {
+    resetTimer();
+  }
+});
+
+// Event listener for closing a text document in the VSCode editor
+vscode.workspace.onDidCloseTextDocument((event) => {
+  // Stop the timer when a document is closed
+  if (isActive) {
+    stopTimer();
+  }
+});

@@ -4,7 +4,7 @@
   "description": "a developer time consious clock to check up your devtime and commend you on the achievements ts r",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.77.0"
+    "vscode": "^1.78.2"
   },
   "categories": [
     "Other"
@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "devc.helloWorld",
-        "title": "Hello World"
+        "command": "devc.devclock",
+        "title": "devclock"
       }
     ]
   },
@@ -25,7 +25,8 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "build": "node ./src/extension.ts"
   },
   "devDependencies": {
     "@types/vscode": "^1.77.0",

@@ -10,7 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
     // Command to start the timer
     let startTimerCommand = vscode.commands.registerCommand('devclock.startTimer', () => {
         startTimer();
-              vscode.window.showInformationMessage('Timer started!');
+        vscode.window.showInformationMessage('Timer started!');
         if (!timerStatusBarItem) {
             timerStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
             timerStatusBarItem.text = 'Timer started';
@@ -42,7 +42,8 @@ export function activate(context: vscode.ExtensionContext) {
     timerStatusBarItem.show();
 
     // Update the status bar item with the elapsed time
-    setInterval(() => {
+    let interval: NodeJS.Timeout;
+    interval = setInterval(() => {
         const elapsedTime = getElapsedTime();
         timerStatusBarItem.text = `Timer: ${elapsedTime}`;
     }, 1000);
@@ -95,6 +96,14 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         // Check if a surprise event occurs
+if (event.contentChanges.length > 5) {
+            // Display surprise emoji comment
+            const surpriseEmoji = getRandomSurpriseEmoji();
+            const surpriseComment = getSurpriseComment(surpriseEmoji);
+            vscode.window.showInformationMessage(surpriseComment);
+            vscode.window.showInformationMessage(`Surprise! ${surpriseEmoji}`);
+        }
+                    // Check if a surprise event occurs
         if (event.contentChanges.length > 10) {
             // Display surprise emoji comment
             const surpriseEmoji = getRandomSurpriseEmoji();
@@ -103,7 +112,7 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.window.showInformationMessage(`Surprise! ${surpriseEmoji}`);
         }
 
-        // check if a love event occurs
+        // Check if a love event occurs
         if (event.contentChanges.length > 5) {
             // Display love emoji comment
             const loveEmoji = getRandomLoveEmoji();
@@ -125,3 +134,4 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(resetTimerCommand);
     context.subscriptions.push(showElapsedTimeCommand);
 }
+

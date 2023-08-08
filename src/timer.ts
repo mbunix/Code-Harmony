@@ -45,7 +45,7 @@ export function getElapsedTime() {
 }
 
 // Event listener for opening a text document in the VSCode editor
-vscode.workspace.onDidOpenTextDocument((event) => {
+vscode.workspace.onDidOpenTextDocument((event: vscode.TextDocument) => {
   // Initialize the start time when a document is opened
   if (!isActive) {
     resetTimer();
@@ -53,7 +53,7 @@ vscode.workspace.onDidOpenTextDocument((event) => {
 });
 
 // Event listener for closing a text document in the VSCode editor
-vscode.workspace.onDidCloseTextDocument((event) => {
+vscode.workspace.onDidCloseTextDocument((event: vscode.TextDocument) => {
   // Stop the timer when a document is closed
   if (isActive) {
     stopTimer();

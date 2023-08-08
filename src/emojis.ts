@@ -17,3 +17,4 @@ export function getRandomLoveEmoji() {
   const loveEmojis = ['❤️', '💖', '💕', '😍', '😘'];
   return loveEmojis[Math.floor(Math.random() * loveEmojis.length)];
 }
+

@@ -16,31 +16,40 @@ const commendableComments: string[] = [
 
 const surpriseEmojis: string[] = ['😲', '😮', '😯', '🤯', '😱'];
 const loveEmojis: string[] = ['❤️', '💖', '💕', '😍', '😘'];
-
-let lastFrownIndex = -1;
+const frownEmojis: string[] = ['😞', '😔', '🙁', '😕', '😣'];
+const commendableEmojis: string[] = ['👍', '👏', '👌', '👊', '💪'];
 let lastCommendableEmojiIndex = -1;
+let lastSurpriseEmojiIndex = -1;
+let lastLoveEmojiIndex = -1;
+let lastFrownEmojiIndex = -1;
 
-export function getFrownComment(): string {
-  const currentIndex = getRandomIndex(frownComments.length, lastFrownIndex);
-  lastFrownIndex = currentIndex;
-  return frownComments[currentIndex];
-}
 
 export function getCommendableComment(): string {
   const currentIndex = getRandomIndex(commendableComments.length, lastCommendableEmojiIndex);
   lastCommendableEmojiIndex = currentIndex;
-  return commendableComments[currentIndex];
+  return `${getRandomCommendableEmoji()} ${commendableComments[currentIndex]}`;
 }
 
+
 export function getSurpriseComment(emoji: string): string {
-  return `Wow, that was unexpected! ${emoji}`;
+  const currentIndex = getRandomIndex(surpriseEmojis.length, lastSurpriseEmojiIndex);
+  lastSurpriseEmojiIndex = currentIndex;
+  return `${getRandomSurpriseEmoji()} ${surpriseEmojis[currentIndex]}`;
 }
 
 export function getLoveComment(emoji: string): string {
-  return `You're doing amazing! Spread the love. ${emoji}`;
+  const currentIndex = getRandomIndex(loveEmojis.length, lastLoveEmojiIndex);
+  lastLoveEmojiIndex = currentIndex;
+  return `${getRandomLoveEmoji()} ${loveEmojis[currentIndex]}`;
+}
+export function getFrownComment(emoji: string): string {
+  const currentIndex = getRandomIndex(frownEmojis.length, lastFrownEmojiIndex);
+  lastFrownEmojiIndex = currentIndex;
+  return `${emoji} ${frownEmojis[currentIndex]}`;
 }
 
-function getRandomIndex(maxIndex: number, lastIndex: number): number {
+
+export function getRandomIndex(maxIndex: number, lastIndex: number): number {
   let currentIndex = Math.floor(Math.random() * maxIndex);
   while (currentIndex === lastIndex) {
     currentIndex = Math.floor(Math.random() * maxIndex);
@@ -48,13 +57,9 @@ function getRandomIndex(maxIndex: number, lastIndex: number): number {
   return currentIndex;
 }
 
-function getRandomEmoji(emojiList: string[]): string {
+export function getRandomEmoji(emojiList: string[]): string {
   const currentIndex = Math.floor(Math.random() * emojiList.length);
   return emojiList[currentIndex];
-}
-
-export function getRandomFrownEmoji() {
-  return getRandomEmoji(frownEmojis);
 }
 
 export function getRandomCommendableEmoji() {
@@ -67,4 +72,7 @@ export function getRandomSurpriseEmoji() {
 
 export function getRandomLoveEmoji() {
   return getRandomEmoji(loveEmojis);
+}
+export function getRandomFrownEmoji() {
+  return getRandomEmoji(frownEmojis);
 }
